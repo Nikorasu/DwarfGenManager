@@ -1,6 +1,6 @@
 @ECHO OFF
 IF EXIST data\save\region0 (
-	ECHO ERROR: region0 folder already present, please rename/move then try again..
+	ECHO ERROR: region0 folder already present, please rename/move it then try again.
 	GOTO error
 )
 
@@ -52,15 +52,14 @@ IF EXIST data\save\%worldname% (
 )
 
 REN data\save\region0 %worldname%
-
-IF %count%==%maxcount% GOTO :END
+IF %count%==%maxcount% GOTO END
 
 ECHO;
 ECHO World %count% done. Waiting in case user wants to abort..
 TIMEOUT 20 /nobreak
 
 SET /a count+=1
-GOTO :GEN
+GOTO GEN
 
 :END
 ECHO;
