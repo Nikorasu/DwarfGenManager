@@ -1,6 +1,6 @@
 @ECHO OFF
 IF EXIST data\save\region0 (
-	ECHO region0 folder already present, please rename/move then try again..
+	ECHO ERROR: region0 folder already present, please rename/move then try again..
 	GOTO error
 )
 
