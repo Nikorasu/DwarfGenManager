@@ -37,7 +37,7 @@ SET "map=abcdefghijklmnopqrstuvwxyz"
 :CHARFIX
 IF NOT DEFINED _input GOTO endFIX
 FOR /F "delims=*~ eol=*" %%C IN ("!_input:~0,1!") DO (
-    IF "!map:%%C=!" NEQ "!map!" SET "_output=!_output!%%C"
+	IF "!map:%%C=!" NEQ "!map!" SET "_output=!_output!%%C"
 )
 SET "_input=!_input:~1!"
 GOTO CHARFIX
