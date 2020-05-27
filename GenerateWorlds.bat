@@ -1,7 +1,8 @@
 @ECHO OFF
 IF EXIST data\save\region0 (
 	ECHO ERROR: region0 folder already present, please rename/move it then try again.
-	GOTO error
+	PAUSE
+	EXIT /b
 )
 
 SET /p genparam=Enter generation parameter title: 
@@ -35,13 +36,13 @@ SET "_input=!worldname!"
 SET "_output="
 SET "map=abcdefghijklmnopqrstuvwxyz"
 :CHARFIX
-IF NOT DEFINED _input GOTO endFIX
+IF NOT DEFINED _input GOTO ENDFIX
 FOR /F "delims=*~ eol=*" %%C IN ("!_input:~0,1!") DO (
 	IF "!map:%%C=!" NEQ "!map!" SET "_output=!_output!%%C"
 )
 SET "_input=!_input:~1!"
 GOTO CHARFIX
-:endFIX
+:ENDFIX
 SET "worldname=!_output!"
 SETLOCAL DisableDelayedExpansion
 
@@ -64,6 +65,5 @@ GOTO GEN
 :END
 ECHO;
 ECHO All worlds complete!
-:error
 PAUSE
 REM script by Nik
