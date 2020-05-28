@@ -23,7 +23,6 @@ IF NOT EXIST data\save\region0 (
 
 FOR /f %%F IN ('DIR /b region0*world_history.txt') DO SET filename=%%F
 SET /p worldname=<%filename%
-
 ECHO World name is %worldname%. Organizing files now..
 optipng -q -zc9 -zm9 -zs0 -f0 *.bmp
 DEL *.bmp
@@ -53,7 +52,13 @@ IF EXIST data\save\%worldname% (
 )
 
 REN data\save\region0 %worldname%
-IF %count%==%maxcount% GOTO END
+
+IF %count%==%maxcount% (
+	ECHO;
+	ECHO All worlds complete!
+	PAUSE
+	EXIT /b
+)
 
 ECHO;
 ECHO World %count% done. Waiting in case user wants to abort..
@@ -61,9 +66,4 @@ TIMEOUT 20 /nobreak
 
 SET /a count+=1
 GOTO GEN
-
-:END
-ECHO;
-ECHO All worlds complete!
-PAUSE
 REM script by Nik
