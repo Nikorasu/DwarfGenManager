@@ -21,7 +21,7 @@ IF NOT EXIST data\save\region0 (
 	GOTO GEN
 )
 
-FOR /f %%n IN ('DIR /b region0*world_history.txt') DO SET filename=%%n
+FOR /f %%F IN ('DIR /b region0*world_history.txt') DO SET filename=%%F
 SET /p worldname=<%filename%
 
 ECHO World name is %worldname%. Organizing files now..
@@ -37,7 +37,7 @@ SET "_output="
 SET "map=abcdefghijklmnopqrstuvwxyz"
 :CHARFIX
 IF NOT DEFINED _input GOTO ENDFIX
-FOR /F "delims=*~ eol=*" %%C IN ("!_input:~0,1!") DO (
+FOR /f "delims=*~ eol=*" %%C IN ("!_input:~0,1!") DO (
 	IF "!map:%%C=!" NEQ "!map!" SET "_output=!_output!%%C"
 )
 SET "_input=!_input:~1!"
