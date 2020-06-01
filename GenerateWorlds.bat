@@ -13,7 +13,7 @@ SET /a count=1
 ECHO;
 ECHO Generating World %count%..
 
-"Dwarf Fortress.exe" -gen 0 RANDOM %genparam%
+"Dwarf Fortress.exe" -gen 0 RANDOM "%genparam%"
 
 IF NOT EXIST data\save\region0 (
 	ECHO Something happened, world was not generated! Trying again..
