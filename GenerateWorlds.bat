@@ -21,7 +21,7 @@ IF NOT EXIST data\save\region0 (
 	GOTO GEN
 )
 
-FOR /f %%F IN ('DIR /b region0*world_history.txt') DO SET filename=%%F
+FOR %%F IN (region0*world_history.txt) DO SET filename=%%~nxF
 SET /p worldname=<%filename%
 ECHO World name is %worldname%. Organizing files now..
 optipng -q -zc9 -zm9 -zs0 -f0 *.bmp
