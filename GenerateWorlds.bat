@@ -65,7 +65,7 @@ IF EXIST data\save\%worldname% (
 
 REN data\save\region0 %worldname%
 
-IF %count%==%maxcount% (
+IF %count% EQU %maxcount% (
 	ECHO;
 	ECHO All %count% worlds complete!
 	PAUSE
