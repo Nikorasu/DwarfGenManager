@@ -14,7 +14,7 @@ FOR /f "delims=" %%T IN ('find "[TITLE:" ^< data\init\world_gen.txt') DO (
 	SET gparam=%%T
 	IF %gnum% LEQ 20 (ECHO !gparam:~8,-1!) ELSE (SET _outlist=!_outlist!, !gparam:~8,-1!)
 )
-IF %gnum% GTR 20 echo %_outlist:~2%
+IF %gnum% GTR 20 ECHO %_outlist:~2%
 ECHO;
 SET /p genparam=Which preset do you want to use?: 
 SET /p maxcount=How many worlds to generate?: 
