@@ -1,28 +1,34 @@
 @ECHO OFF
-SETLOCAL EnableDelayedExpansion
+TITLE Generation Manager  - by Nik
 
+IF NOT EXIST "Dwarf Fortress.exe" (
+	ECHO ERROR: "Dwarf Fortress.exe" not found, place script into same folder.
+	PAUSE
+	EXIT /b
+)
 IF EXIST data\save\region0 (
-	ECHO ERROR: region0 folder already present, please rename/move it then try again.
+	ECHO ERROR: region0 folder already present, rename/move it then try again.
 	PAUSE
 	EXIT /b
 )
 
+SETLOCAL EnableDelayedExpansion
 FOR /f %%G IN ('find /c "[TITLE:" ^< data\init\world_gen.txt') DO SET gnum=%%G
 ECHO There are %gnum% available generator pesets in your world_gen file:
 ECHO;
 FOR /f "delims=" %%T IN ('find "[TITLE:" ^< data\init\world_gen.txt') DO (
 	SET gparam=%%T
-	IF %gnum% LEQ 20 (ECHO !gparam:~8,-1!) ELSE (SET _outlist=!_outlist!, !gparam:~8,-1!)
+	IF %gnum% LEQ 20 (ECHO !gparam:~8,-1!) ELSE (SET outlist=!outlist!, !gparam:~8,-1!)
 )
-IF %gnum% GTR 20 ECHO %_outlist:~2%
+IF %gnum% GTR 20 ECHO %outlist:~2%
 ECHO;
 SET /p genparam=Which preset do you want to use?: 
 SET /p maxcount=How many worlds to generate?: 
-SET /a count=1
+SET /a wcount=1
 
 :GEN
 ECHO;
-ECHO Generating World %count%..
+ECHO Generating World %wcount%..
 
 "Dwarf Fortress.exe" -gen 0 RANDOM "%genparam%"
 
@@ -43,19 +49,19 @@ MD data\save\region0\info
 MOVE region0* data\save\region0\info
 REN "data\save\region0\info\region0-world_gen_param.txt" "%worldname: =%-world_gen_param.txt"
 
-SET "_input=%worldname%"
-SET "_output="
+SET "charin=%worldname%"
+SET "charout"
 SET "map=abcdefghijklmnopqrstuvwxyz"
 
 :CHARFIX
-IF NOT DEFINED _input GOTO ENDFIX
-FOR /f "delims=*~ eol=*" %%C IN ("!_input:~0,1!") DO (
-	IF "!map:%%C=!" NEQ "!map!" SET "_output=!_output!%%C"
+IF NOT DEFINED charin GOTO ENDFIX
+FOR /f "delims=*~ eol=*" %%C IN ("!charin:~0,1!") DO (
+	IF "!map:%%C=!" NEQ "!map!" SET "charout=!charout!%%C"
 )
-SET "_input=%_input:~1%"
+SET "charin=%charin:~1%"
 GOTO CHARFIX
 :ENDFIX
-SET "worldname=%_output%"
+SET "worldname=%charout%"
 
 :DUPCHECK
 IF EXIST data\save\%worldname% (
@@ -65,16 +71,18 @@ IF EXIST data\save\%worldname% (
 
 REN data\save\region0 %worldname%
 
-IF %count% EQU %maxcount% (
+IF %wcount% EQU %maxcount% (
 	ECHO;
-	ECHO All %count% worlds complete!
+	ECHO All %wcount% worlds complete!
 	PAUSE
 	EXIT /b
 )
 
 ECHO;
-ECHO World %count% done. Waiting in case user wants to abort..
+ECHO World %wcount% done. Waiting in case user wants to abort..
 TIMEOUT 20 /nobreak
-SET /a count+=1
+SET /a wcount+=1
 GOTO GEN
+
 REM script by Nik
+REM https://github.com/Nikorasu/DwarfGenManager
