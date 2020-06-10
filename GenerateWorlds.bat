@@ -50,7 +50,7 @@ MOVE region0* data\save\region0\info
 REN "data\save\region0\info\region0-world_gen_param.txt" "%worldname: =%-world_gen_param.txt"
 
 SET "charin=%worldname%"
-SET "charout"
+SET "charout="
 SET "map=abcdefghijklmnopqrstuvwxyz"
 
 :CHARFIX
