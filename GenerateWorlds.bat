@@ -15,19 +15,20 @@ IF EXIST data\save\region0 (
 SETLOCAL EnableDelayedExpansion
 FOR /f %%G IN ('find /c "[TITLE:" ^< data\init\world_gen.txt') DO SET gnum=%%G
 ECHO There are %gnum% available generator pesets in your world_gen file:
-ECHO;
+ECHO,
 FOR /f "delims=" %%T IN ('find "[TITLE:" ^< data\init\world_gen.txt') DO (
 	SET gparam=%%T
 	IF %gnum% LEQ 20 (ECHO !gparam:~8,-1!) ELSE (SET outlist=!outlist!, !gparam:~8,-1!)
 )
 IF %gnum% GTR 20 ECHO %outlist:~2%
-ECHO;
+ECHO,
 SET /p genparam=Which preset do you want to use?: 
 SET /p maxcount=How many worlds to generate?: 
 SET /a wcount=1
+SET logfile=GenLog_%date:~10,4%-%date:~4,2%-%date:~7,2%_%time:~0,2%-%time:~3,2%.txt
 
 :GEN
-ECHO;
+ECHO, && ECHO,
 ECHO Generating World %wcount%..
 
 "Dwarf Fortress.exe" -gen 0 RANDOM "%genparam%"
@@ -38,30 +39,30 @@ IF NOT EXIST data\save\region0 (
 	GOTO GEN
 )
 
-FOR %%F IN (region0*world_history.txt) DO SET filename=%%~nxF
-SET /p worldname=<%filename%
-ECHO;
+FOR %%F IN (region0*world_history.txt) DO SET histfile=%%~nxF
+SET /p worldname=<%histfile%
+ECHO,
 ECHO World name is %worldname%. Organizing files now..
-ECHO;
+ECHO,
 optipng -q -zc9 -zm9 -zs0 -f0 *.bmp
 DEL *.bmp
 MD data\save\region0\info
 MOVE region0* data\save\region0\info
 REN "data\save\region0\info\region0-world_gen_param.txt" "%worldname: =%-world_gen_param.txt"
 
-SET "charin=%worldname%"
-SET "charout="
-SET "map=abcdefghijklmnopqrstuvwxyz"
+SET charin=%worldname%
+SET charout=
+SET map=abcdefghijklmnopqrstuvwxyz
 
 :CHARFIX
 IF NOT DEFINED charin GOTO ENDFIX
 FOR /f "delims=*~ eol=*" %%C IN ("!charin:~0,1!") DO (
-	IF "!map:%%C=!" NEQ "!map!" SET "charout=!charout!%%C"
+	IF "!map:%%C=!" NEQ "!map!" SET charout=!charout!%%C
 )
-SET "charin=%charin:~1%"
+SET charin=%charin:~1%
 GOTO CHARFIX
 :ENDFIX
-SET "worldname=%charout%"
+SET worldname=%charout%
 
 :DUPCHECK
 IF EXIST data\save\%worldname% (
@@ -69,20 +70,46 @@ IF EXIST data\save\%worldname% (
 	GOTO DUPCHECK
 )
 
+ECHO %worldname% >> %logfile%
+ECHO,>> %logfile%
+FOR %%P IN (data\save\region0\info\region0*world_sites_and_pops.txt) DO SET popfile=%%~sfP
+FOR /f %%L IN ('find " Dwarves" ^< %popfile%') DO SET dPop=         %%L
+IF NOT DEFINED dPop SET dPop=         0
+ECHO Dwarves: %dPop:~-9% >> %logfile%
+FOR /f %%L IN ('find " Goblins" ^< %popfile%') DO SET gPop=         %%L
+IF NOT DEFINED gPop SET gPop=         0
+ECHO Goblins: %gPop:~-9% >> %logfile%
+FOR /f %%L IN ('find " Elves" ^< %popfile%') DO SET ePop=         %%L
+IF NOT DEFINED ePop SET ePop=         0
+ECHO Elves:   %ePop:~-9% >> %logfile%
+FOR /f %%L IN ('find " Humans" ^< %popfile%') DO SET hPop=         %%L
+IF NOT DEFINED hPop SET hPop=         0
+ECHO Humans:  %hPop:~-9% >> %logfile%
+FOR /f %%L IN ('find " Kobolds" ^< %popfile%') DO SET kPop=         %%L
+IF NOT DEFINED kPop SET kPop=         0
+ECHO Kobolds: %kPop:~-9% >> %logfile%
+FOR /f %%L IN ('find /c ", tower" ^< %popfile%') DO SET tCount=         %%L
+ECHO Towers:  %tCount:~-9% >> %logfile%
+FOR /f "delims=" %%L IN ('find "Total: " ^< %popfile%') DO SET tcPop=%%L
+SET tcPop=         %tcPop:~8%
+ECHO TotalPop:%tcPop:~-9% >> %logfile%
+ECHO,>> %logfile%
+ECHO,>> %logfile%
+
 REN data\save\region0 %worldname%
 
 IF %wcount% EQU %maxcount% (
-	ECHO;
-	ECHO All %wcount% worlds complete!
+	ECHO, && ECHO,
+	ECHO All %wcount% worlds complete. Summary saved to: %logfile%
+	ECHO,
 	PAUSE
 	EXIT /b
 )
 
-ECHO;
+ECHO,
 ECHO World %wcount% done. Waiting in case user wants to abort..
 TIMEOUT 20 /nobreak
 SET /a wcount+=1
 GOTO GEN
 
-REM script by Nik
-REM https://github.com/Nikorasu/DwarfGenManager
+REM script by Nik https://github.com/Nikorasu/DwarfGenManager
