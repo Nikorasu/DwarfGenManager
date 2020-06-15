@@ -26,6 +26,7 @@ SET /p genparam=Which preset do you want to use?:
 SET /p maxcount=How many worlds to generate?: 
 SET /a wcount=1
 SET logfile=GenLog_%date:~10,4%-%date:~4,2%-%date:~7,2%_%time:~0,2%-%time:~3,2%.txt
+SET logfile=%logfile: =%
 
 :GEN
 ECHO, && ECHO,
