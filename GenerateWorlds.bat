@@ -73,7 +73,7 @@ IF EXIST data\save\%worldname% (
 
 ECHO %worldname% >> %logfile%
 ECHO,>> %logfile%
-FOR %%P IN (data\save\region0\info\region0*world_sites_and_pops.txt) DO SET popfile=%%~sfP
+FOR %%P IN (data\save\region0\info\region0*world_sites_and_pops.txt) DO SET popfile=data\save\region0\info\%%~nxP
 FOR /f %%L IN ('find " Dwarves" ^< %popfile%') DO SET dPop=         %%L
 IF NOT DEFINED dPop SET dPop=         0
 ECHO Dwarves: %dPop:~-9% >> %logfile%
