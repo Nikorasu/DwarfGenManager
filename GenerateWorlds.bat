@@ -39,16 +39,6 @@ IF NOT EXIST data\save\region0 (
 	TIMEOUT 10 /nobreak
 	GOTO GEN
 )
-IF NOT EXIST region0*world_history.txt (
-	ECHO Somehow info files failed, renaming world and moving on..
-	optipng -q -zc9 -zm9 -zs0 -f0 region0*.bmp && DEL region0*.bmp
-	MD data\save\region0\info
-	MOVE region0* data\save\region0\info
-	REN data\save\region0 world%wcount%_noinfo
-	ECHO World %wcount% info files not found.>>%logfile%
-	ECHO,>>%logfile%&& ECHO,>>%logfile%
-	GOTO SKIPINFO
-)
 
 FOR %%F IN (region0*world_history.txt) DO SET histfile=%%~nxF
 SET /p worldname=<%histfile%
@@ -107,12 +97,10 @@ ECHO,>>%logfile%&& ECHO,>>%logfile%
 
 REN data\save\region0 %worldname%
 
-:SKIPINFO
 IF %wcount% EQU %maxcount% (
 	ECHO, && ECHO,
 	ECHO All %wcount% worlds complete. Summary saved to: %logfile%
-	ECHO,
-	PAUSE && EXIT /b
+	ECHO, && PAUSE && EXIT /b
 )
 
 ECHO,
