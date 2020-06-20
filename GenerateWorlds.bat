@@ -102,7 +102,7 @@ FOR /f %%L IN ('find /c ", tower" ^< %popfile%') DO SET tCount=         %%L
 ECHO Towers:  %tCount:~-9% >> %logfile%
 FOR /f "delims=" %%L IN ('find "Total: " ^< %popfile%') DO SET tcPop=%%L
 SET tcPop=         %tcPop:~8%
-ECHO TotalPop:%tcPop:~-9% >> %logfile%&&SET tcPop=
+ECHO TotalPop:%tcPop:~-9% >> %logfile%
 ECHO,>>%logfile%&&ECHO,>>%logfile%
 
 REN data\save\region0 %worldname%
