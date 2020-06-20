@@ -46,7 +46,7 @@ IF NOT EXIST region0*world_history.txt (
 	MOVE region0* data\save\region0\info
 	REN data\save\region0 world%wcount%_noinfo
 	ECHO World %wcount% info files not found.>>%logfile%
-	ECHO,>>%logfile%&&ECHO,>>%logfile%
+	ECHO,>>%logfile%&& ECHO,>>%logfile%
 	GOTO SKIPINFO
 )
 
@@ -103,7 +103,7 @@ ECHO Towers:  %tCount:~-9% >> %logfile%
 FOR /f "delims=" %%L IN ('find "Total: " ^< %popfile%') DO SET tcPop=%%L
 SET tcPop=         %tcPop:~8%
 ECHO TotalPop:%tcPop:~-9% >> %logfile%
-ECHO,>>%logfile%&&ECHO,>>%logfile%
+ECHO,>>%logfile%&& ECHO,>>%logfile%
 
 REN data\save\region0 %worldname%
 
