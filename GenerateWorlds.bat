@@ -83,26 +83,26 @@ IF EXIST data\save\%worldname% (
 ECHO %worldname% - %histfile:~8,5%>>%logfile%
 ECHO,>>%logfile%
 FOR %%P IN (data\save\region0\info\region0*world_sites_and_pops.txt) DO SET popfile=%%~fsP
-FOR /f %%L IN ('find " Dwarves" ^< %popfile%') DO SET dPop=         %%L
-IF NOT DEFINED dPop SET dPop=         0
-ECHO Dwarves: %dPop:~-9% >> %logfile%
-FOR /f %%L IN ('find " Goblins" ^< %popfile%') DO SET gPop=         %%L
-IF NOT DEFINED gPop SET gPop=         0
-ECHO Goblins: %gPop:~-9% >> %logfile%
-FOR /f %%L IN ('find " Elves" ^< %popfile%') DO SET ePop=         %%L
-IF NOT DEFINED ePop SET ePop=         0
-ECHO Elves:   %ePop:~-9% >> %logfile%
-FOR /f %%L IN ('find " Humans" ^< %popfile%') DO SET hPop=         %%L
-IF NOT DEFINED hPop SET hPop=         0
-ECHO Humans:  %hPop:~-9% >> %logfile%
-FOR /f %%L IN ('find " Kobolds" ^< %popfile%') DO SET kPop=         %%L
-IF NOT DEFINED kPop SET kPop=         0
-ECHO Kobolds: %kPop:~-9% >> %logfile%
+FOR /f %%L IN ('find " Dwarves" ^< %popfile%') DO SET lPop=         %%L
+IF NOT DEFINED lPop SET lPop=         0
+ECHO Dwarves: %lPop:~-9% >> %logfile%&&SET lPop=
+FOR /f %%L IN ('find " Goblins" ^< %popfile%') DO SET lPop=         %%L
+IF NOT DEFINED lPop SET lPop=         0
+ECHO Goblins: %lPop:~-9% >> %logfile%&&SET lPop=
+FOR /f %%L IN ('find " Elves" ^< %popfile%') DO SET lPop=         %%L
+IF NOT DEFINED lPop SET lPop=         0
+ECHO Elves:   %lPop:~-9% >> %logfile%&&SET lPop=
+FOR /f %%L IN ('find " Humans" ^< %popfile%') DO SET lPop=         %%L
+IF NOT DEFINED lPop SET lPop=         0
+ECHO Humans:  %lPop:~-9% >> %logfile%&&SET lPop=
+FOR /f %%L IN ('find " Kobolds" ^< %popfile%') DO SET lPop=         %%L
+IF NOT DEFINED lPop SET lPop=         0
+ECHO Kobolds: %lPop:~-9% >> %logfile%&&SET lPop=
 FOR /f %%L IN ('find /c ", tower" ^< %popfile%') DO SET tCount=         %%L
 ECHO Towers:  %tCount:~-9% >> %logfile%
 FOR /f "delims=" %%L IN ('find "Total: " ^< %popfile%') DO SET tcPop=%%L
 SET tcPop=         %tcPop:~8%
-ECHO TotalPop:%tcPop:~-9% >> %logfile%
+ECHO TotalPop:%tcPop:~-9% >> %logfile%&&SET tcPop=
 ECHO,>>%logfile%&&ECHO,>>%logfile%
 
 REN data\save\region0 %worldname%
