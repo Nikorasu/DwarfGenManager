@@ -47,7 +47,7 @@ IF NOT EXIST region0*world_history.txt (
 	REN data\save\region0 world%wcount%_noinfo
 	ECHO World %wcount% info files not found.>>%logfile%
 	ECHO,>>%logfile%&&ECHO,>>%logfile%
-	GOTO ERRORSKIP
+	GOTO SKIPINFO
 )
 
 FOR %%F IN (region0*world_history.txt) DO SET histfile=%%~nxF
@@ -107,7 +107,7 @@ ECHO,>>%logfile%&&ECHO,>>%logfile%
 
 REN data\save\region0 %worldname%
 
-:ERRORSKIP
+:SKIPINFO
 IF %wcount% EQU %maxcount% (
 	ECHO, && ECHO,
 	ECHO All %wcount% worlds complete. Summary saved to: %logfile%
