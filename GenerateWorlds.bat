@@ -3,16 +3,15 @@ TITLE Generation Manager  - by Nik
 
 IF NOT EXIST "Dwarf Fortress.exe" (
 	ECHO ERROR: "Dwarf Fortress.exe" not found, place script into same folder.
-	PAUSE
-	EXIT /b
+	PAUSE && EXIT /b
 )
 IF EXIST data\save\region0 (
 	ECHO ERROR: region0 folder already present, rename/move it then try again.
-	PAUSE
-	EXIT /b
+	PAUSE && EXIT /b
 )
 
 SETLOCAL EnableDelayedExpansion
+
 FOR /f %%G IN ('find /c "[TITLE:" ^< data\init\world_gen.txt') DO SET gnum=%%G
 ECHO There are %gnum% available generator pesets in your world_gen file:
 ECHO,
@@ -22,6 +21,7 @@ FOR /f "delims=" %%T IN ('find "[TITLE:" ^< data\init\world_gen.txt') DO (
 )
 IF %gnum% GTR 20 ECHO %outlist:~2%
 ECHO,
+
 SET /p genparam=Which preset do you want to use?: 
 SET /p maxcount=How many worlds to generate?: 
 SET /a wcount=1
@@ -38,6 +38,15 @@ IF NOT EXIST data\save\region0 (
 	ECHO Something happened, world was not generated! Trying again..
 	TIMEOUT 10 /nobreak
 	GOTO GEN
+)
+IF NOT EXIST region0*world_history.txt (
+	ECHO Somehow info files failed, renaming world and moving on..
+	MD data\save\region0\info
+	MOVE region0* data\save\region0\info
+	REN data\save\region0 world_%wcount%_noinfo
+	ECHO World %wcount% info files not found.>>%logfile%
+	ECHO,>>%logfile%&&ECHO,>>%logfile%
+	GOTO ERRORSKIP
 )
 
 FOR %%F IN (region0*world_history.txt) DO SET histfile=%%~nxF
@@ -71,9 +80,9 @@ IF EXIST data\save\%worldname% (
 	GOTO DUPCHECK
 )
 
-ECHO %worldname% >> %logfile%
-ECHO,>> %logfile%
-FOR %%P IN (data\save\region0\info\region0*world_sites_and_pops.txt) DO SET popfile=data\save\region0\info\%%~nxP
+ECHO %worldname% - %histfile:~8,5%>>%logfile%
+ECHO,>>%logfile%
+FOR %%P IN (data\save\region0\info\region0*world_sites_and_pops.txt) DO SET popfile=%%~fsP
 FOR /f %%L IN ('find " Dwarves" ^< %popfile%') DO SET dPop=         %%L
 IF NOT DEFINED dPop SET dPop=         0
 ECHO Dwarves: %dPop:~-9% >> %logfile%
@@ -94,11 +103,11 @@ ECHO Towers:  %tCount:~-9% >> %logfile%
 FOR /f "delims=" %%L IN ('find "Total: " ^< %popfile%') DO SET tcPop=%%L
 SET tcPop=         %tcPop:~8%
 ECHO TotalPop:%tcPop:~-9% >> %logfile%
-ECHO,>> %logfile%
-ECHO,>> %logfile%
+ECHO,>>%logfile%&&ECHO,>>%logfile%
 
 REN data\save\region0 %worldname%
 
+:ERRORSKIP
 IF %wcount% EQU %maxcount% (
 	ECHO, && ECHO,
 	ECHO All %wcount% worlds complete. Summary saved to: %logfile%
