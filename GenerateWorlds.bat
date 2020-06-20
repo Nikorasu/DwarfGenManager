@@ -41,6 +41,7 @@ IF NOT EXIST data\save\region0 (
 )
 IF NOT EXIST region0*world_history.txt (
 	ECHO Somehow info files failed, renaming world and moving on..
+	optipng -q -zc9 -zm9 -zs0 -f0 region0*.bmp && DEL region0*.bmp
 	MD data\save\region0\info
 	MOVE region0* data\save\region0\info
 	REN data\save\region0 world%wcount%_noinfo
@@ -54,8 +55,7 @@ SET /p worldname=<%histfile%
 ECHO,
 ECHO World name is %worldname%. Organizing files now..
 ECHO,
-optipng -q -zc9 -zm9 -zs0 -f0 *.bmp
-DEL *.bmp
+optipng -q -zc9 -zm9 -zs0 -f0 region0*.bmp && DEL region0*.bmp
 MD data\save\region0\info
 MOVE region0* data\save\region0\info
 REN "data\save\region0\info\region0-world_gen_param.txt" "%worldname: =%-world_gen_param.txt"
