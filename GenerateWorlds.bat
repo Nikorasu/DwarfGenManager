@@ -80,7 +80,7 @@ IF EXIST data\save\%worldname% (
 	GOTO DUPCHECK
 )
 
-ECHO %worldname% - %histfile:~8,5%>>%logfile%
+ECHO %worldname%  %histfile:~8,5%>>%logfile%
 ECHO,>>%logfile%
 FOR %%P IN (data\save\region0\info\region0*world_sites_and_pops.txt) DO SET popfile=%%~fsP
 FOR /f %%L IN ('find " Dwarves" ^< %popfile%') DO SET lPop=         %%L
