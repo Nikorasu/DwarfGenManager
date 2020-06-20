@@ -112,8 +112,7 @@ IF %wcount% EQU %maxcount% (
 	ECHO, && ECHO,
 	ECHO All %wcount% worlds complete. Summary saved to: %logfile%
 	ECHO,
-	PAUSE
-	EXIT /b
+	PAUSE && EXIT /b
 )
 
 ECHO,
