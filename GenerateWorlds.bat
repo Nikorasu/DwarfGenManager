@@ -43,7 +43,7 @@ IF NOT EXIST region0*world_history.txt (
 	ECHO Somehow info files failed, renaming world and moving on..
 	MD data\save\region0\info
 	MOVE region0* data\save\region0\info
-	REN data\save\region0 world_%wcount%_noinfo
+	REN data\save\region0 world%wcount%_noinfo
 	ECHO World %wcount% info files not found.>>%logfile%
 	ECHO,>>%logfile%&&ECHO,>>%logfile%
 	GOTO ERRORSKIP
