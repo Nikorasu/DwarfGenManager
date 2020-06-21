@@ -45,7 +45,8 @@ SET /p worldname=<%histfile%
 ECHO,
 ECHO World name is %worldname%. Organizing files now..
 ECHO,
-optipng -q -zc9 -zm9 -zs0 -f0 region0*.bmp && DEL region0*.bmp
+optipng -q -zc9 -zm9 -zs0 -f0 region0*.bmp
+DEL region0*.bmp
 MD data\save\region0\info
 MOVE region0* data\save\region0\info
 REN "data\save\region0\info\region0-world_gen_param.txt" "%worldname: =%-world_gen_param.txt"
@@ -98,14 +99,16 @@ ECHO Towers:  %tCount:~-9% >> %logfile%
 FOR /f "delims=" %%L IN ('find "Total: " ^< %popfile%') DO SET tcPop=%%L
 SET tcPop=         %tcPop:~8%
 ECHO TotalPop:%tcPop:~-9% >> %logfile%
-ECHO,>>%logfile%&& ECHO,>>%logfile%
+ECHO,>>%logfile%
+ECHO,>>%logfile%
 
 REN data\save\region0 %worldname%
 
 IF %wcount% EQU %maxcount% (
 	ECHO, && ECHO,
 	ECHO All %wcount% worlds complete. Summary saved to: %logfile%
-	ECHO, && PAUSE && EXIT /b
+	ECHO,
+	PAUSE && EXIT /b
 )
 
 ECHO,
