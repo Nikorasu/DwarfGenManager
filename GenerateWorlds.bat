@@ -75,19 +75,24 @@ ECHO,>>%logfile%
 FOR %%P IN (data\save\region0\info\region0*world_sites_and_pops.txt) DO SET popfile=%%~fsP
 FOR /f %%L IN ('find " Dwarves" ^< %popfile%') DO SET lPop=         %%L
 IF NOT DEFINED lPop SET lPop=         0
-ECHO Dwarves: %lPop:~-9% >> %logfile%&& SET lPop=
+ECHO Dwarves: %lPop:~-9% >> %logfile%
+SET lPop=
 FOR /f %%L IN ('find " Goblins" ^< %popfile%') DO SET lPop=         %%L
 IF NOT DEFINED lPop SET lPop=         0
-ECHO Goblins: %lPop:~-9% >> %logfile%&& SET lPop=
+ECHO Goblins: %lPop:~-9% >> %logfile%
+SET lPop=
 FOR /f %%L IN ('find " Elves" ^< %popfile%') DO SET lPop=         %%L
 IF NOT DEFINED lPop SET lPop=         0
-ECHO Elves:   %lPop:~-9% >> %logfile%&& SET lPop=
+ECHO Elves:   %lPop:~-9% >> %logfile%
+SET lPop=
 FOR /f %%L IN ('find " Humans" ^< %popfile%') DO SET lPop=         %%L
 IF NOT DEFINED lPop SET lPop=         0
-ECHO Humans:  %lPop:~-9% >> %logfile%&& SET lPop=
+ECHO Humans:  %lPop:~-9% >> %logfile%
+SET lPop=
 FOR /f %%L IN ('find " Kobolds" ^< %popfile%') DO SET lPop=         %%L
 IF NOT DEFINED lPop SET lPop=         0
-ECHO Kobolds: %lPop:~-9% >> %logfile%&& SET lPop=
+ECHO Kobolds: %lPop:~-9% >> %logfile%
+SET lPop=
 FOR /f %%L IN ('find /c ", tower" ^< %popfile%') DO SET tCount=         %%L
 ECHO Towers:  %tCount:~-9% >> %logfile%
 FOR /f "delims=" %%L IN ('find "Total: " ^< %popfile%') DO SET tcPop=%%L
