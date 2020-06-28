@@ -57,7 +57,7 @@ SET map=abcdefghijklmnopqrstuvwxyz
 
 :CHARFIX
 IF NOT DEFINED charin GOTO ENDFIX
-FOR /f "delims=*~ eol=*" %%C IN ("!charin:~0,1!") DO (
+FOR /f "delims=* eol=*" %%C IN ("!charin:~0,1!") DO (
 	IF "!map:%%C=!" NEQ "!map!" SET charout=!charout!%%C
 )
 SET charin=%charin:~1%
