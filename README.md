@@ -1,5 +1,5 @@
 # Dwarf Fortress World Generation Manager
-This is a Windows Batch script for generating multiple custom Dwarf Fortress worlds automatically. As worlds are generated, it renames their region folder to their in-game world-name, organizes the info/map files into their corresponding world's folder, and outputs a log file with a list of all worlds generated that session, with their age, populations, and tower info. More to come, if people want me to add more info there.
+This is a Windows Batch script for generating multiple custom Dwarf Fortress worlds automatically. As worlds are generated, it renames their region folder to their in-game world-name, organizes the info/map files into their corresponding world's folder, and outputs a log file with a list of all worlds generated that session, with their age, populations, and tower info.
 
 ### USAGE
 Place the `GenerateWorlds.bat` file into your DF game folder (where `Dwarf Fortress.exe` is), without the game present this script does nothing.
