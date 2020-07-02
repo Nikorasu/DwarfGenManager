@@ -116,3 +116,5 @@ ECHO World %wcount% done. Waiting in case user wants to abort..
 TIMEOUT 20 /nobreak
 SET /a wcount+=1
 GOTO GEN
+
+REM script by Nik - https://github.com/Nikorasu/DwarfGenManager
